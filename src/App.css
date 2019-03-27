@@ -1,0 +1,40 @@
+.App {
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: repeat;
+	background-color: #fafafa;
+	background-size: 2500px;
+	padding-top: 4rem;
+	min-height: 100vh;
+	height: 100%;
+}
+
+.container {
+	max-width: 1600px;
+}
+
+.cls-1 {
+	fill: none;
+}
+.cls-1,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5 {
+	stroke: #1f1f1f;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 0.6px;
+}
+.cls-2 {
+	fill: #ffe2cc;
+}
+.cls-3 {
+	fill: #ff954d;
+}
+.cls-4 {
+	fill: #436fff;
+}
+.cls-5 {
+	fill: #8cff66;
+}
