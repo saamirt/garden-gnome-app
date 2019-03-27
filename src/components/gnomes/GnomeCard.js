@@ -74,7 +74,8 @@ export default class GnomeCard extends Component {
 						<h3>
 							Gnome {this.toTitleCase(this.state.gnomeIndex)}
 						</h3>
-						{<GnomeImage gnomeIcon={this.props.gnomeIcon} />}
+						{//<GnomeImage gnomeIcon={this.props.gnomeIcon} />
+						}
 						<h5>
 							{this.state.status ? (
 								<span className="badge badge-success">

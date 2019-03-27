@@ -6,8 +6,9 @@ import Gnome from './components/gnomes/Gnome';
 import Footer from './components/layout/Footer';
 
 import './App.css';
-//import backgroundImg from './assets/bg-white-01.jpg';
-import backgroundImg from './assets/bg-green.jpg';
+import backgroundImg from './assets/bg-white-01.jpg';
+//import backgroundImg from './assets/bg-green.jpg';
+import NavBar from './components/layout/NavBar';
 //import backgroundImg from './assets/bg.jpg';
 
 class App extends Component {
@@ -18,6 +19,8 @@ class App extends Component {
 					className="App"
 					style={{ backgroundImage: `url(${backgroundImg})` }}
 				>
+					{//<NavBar />
+					}
 					<div className="container">
 						<Switch>
 							<Route exact path="/" component={Dashboard} />
