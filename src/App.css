@@ -4,14 +4,56 @@
 	background-repeat: repeat;
 	background-color: #fafafa;
 	background-size: 2500px;
-    filter: hue-rotate(13deg);
 	padding-top: 4rem;
 	min-height: 100vh;
 	height: 100%;
 }
 
+footer{
+	background-color: #383838;
+	padding: 12px;
+}
+
+font-weight-semibold {
+	font-weight: 600;
+}
+
+font-weight-medium {
+	font-weight: 500;
+}
+
+h5 {
+	font-size: 0.95rem;
+}
+
+.bg-yellow {
+	background-color: #fff68a;
+}
+
+.gnome-card {
+	opacity: 0.95;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+	-moz-user-select: none;
+	-website-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-o-user-select: none;
+	min-width: 410px;
+}
+
+.gnome-card:hover {
+	box-shadow: 0 8px 6px rgba(0, 0, 0, 0.15),
+		0 0px 16px 0px rgba(0, 0, 0, 0.22);
+}
+
 .container {
 	max-width: 1600px;
+}
+
+.square {
+	width: 116px;
+	height: 116px;
 }
 
 .cls-1 {
@@ -22,20 +64,24 @@
 .cls-3,
 .cls-4,
 .cls-5 {
-	stroke: #1f1f1f;
+	stroke: #2c2c2c;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	stroke-width: 0.6px;
 }
 .cls-2 {
-	fill: #ffe2cc;
+	fill: #ffffff;
+	mix-blend-mode: multiply;
 }
 .cls-3 {
-	fill: #ff954d;
+	fill: #ffffff;
+	mix-blend-mode: multiply;
 }
 .cls-4 {
-	fill: #436fff;
+	fill: #ffffff;
+	mix-blend-mode: multiply;
 }
 .cls-5 {
-	fill: #8cff66;
+	fill: #ffffff;
+	mix-blend-mode: multiply;
 }

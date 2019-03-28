@@ -8,6 +8,8 @@ import Footer from './components/layout/Footer';
 import './App.css';
 import backgroundImg from './assets/bg-white-01.jpg';
 //import backgroundImg from './assets/bg-green.jpg';
+//import backgroundImg from './assets/bg-light.jpg';
+//import backgroundImg from './assets/Artboard-1.png';
 import NavBar from './components/layout/NavBar';
 //import backgroundImg from './assets/bg.jpg';
 

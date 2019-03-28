@@ -1,0 +1,18 @@
+React
+Node js
+Express js
+Bootstrap
+HTML
+CSS
+javascript
+[SCSS]?
+[AWS Cognito]?
+
+C++
+ESP8266
+Sensor components
+AWS IoT
+AWS DynamoDB
+MQTT protocol
+
+Adobe Illustrator
