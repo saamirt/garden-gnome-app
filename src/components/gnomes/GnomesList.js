@@ -4,12 +4,15 @@ import GnomeCard from './GnomeCard';
 
 export default class GnomesList extends Component {
 	state = {
+		name: '',
 		url: 'https://pokeapi.co/api/v2/pokemon/',
-		gnomeList: null
+		gnomeList: null,
+		gnome: null
 	};
 
 	async componentDidMount() {
 		const res = await axios.get(this.state.url);
+
 		this.setState({
 			gnomeList: res.data['results'].slice(0, 6).map(g => {
 				let c1 = ['ffffff', 'ff7373', '6779ff'][
@@ -39,6 +42,8 @@ export default class GnomesList extends Component {
 				});
 			})
 		});
+
+		this.setState({ gnome: res.data['results'] });
 	}
 
 	render() {
@@ -51,7 +56,6 @@ export default class GnomesList extends Component {
 								key={gnome.name}
 								name={gnome.name}
 								url={gnome.url}
-								gnomeIcon={gnome.gnomeIcon}
 							/>
 						))}
 					</div>
