@@ -9,7 +9,15 @@
 	height: 100%;
 }
 
-footer{
+.text-connected {
+	color: #7dea7d;
+}
+
+.text-disconnected {
+	color: #ea7d7d;
+}
+
+.footer {
 	background-color: #383838;
 	padding: 12px;
 }

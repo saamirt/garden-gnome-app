@@ -63,7 +63,7 @@ export default class GnomeCard extends Component {
 									<h5 className="card-text mb-1 text-muted font-weight-light">
 										Last updated 3 mins ago
 									</h5>
-									<h5 className="card-text text-success font-weight-medium">
+									<h5 className="card-text text-connected font-weight-medium">
 										Connected
 									</h5>
 								</div>
