@@ -3,14 +3,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Dashboard from './components/layout/Dashboard';
 import Gnome from './components/gnomes/Gnome';
-import Footer from './components/layout/Footer';
-import SideNav, {
-	Toggle,
-	Nav,
-	NavItem,
-	NavIcon,
-	NavText
-} from '@trendmicro/react-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 // Be sure to include styles at some point, probably during your bootstraping
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
@@ -20,7 +13,6 @@ import backgroundImg from './assets/bg-white-01.jpg';
 //import backgroundImg from './assets/bg-green.jpg';
 //import backgroundImg from './assets/bg-light.jpg';
 //import backgroundImg from './assets/Artboard-1.png';
-import NavBar from './components/layout/NavBar';
 //import backgroundImg from './assets/bg.jpg';
 
 class App extends Component {
@@ -64,7 +56,10 @@ class App extends Component {
 							>
 								<div
 									className="container"
-									style={{ paddingTop: '4rem' }}
+									style={{
+										paddingTop: '4rem',
+										paddingBottom: '4rem'
+									}}
 								>
 									<Switch>
 										<Route

@@ -4,6 +4,12 @@
 	"private": true,
 	"dependencies": {
 		"@trendmicro/react-sidenav": "^0.4.5",
+		"@vx/glyph": "0.0.183",
+		"@vx/group": "0.0.183",
+		"@vx/mock-data": "0.0.185",
+		"@vx/responsive": "0.0.188",
+		"@vx/scale": "0.0.182",
+		"@vx/shape": "0.0.184",
 		"axios": "^0.18.0",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.5",

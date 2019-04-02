@@ -39,7 +39,7 @@ h5 {
 }
 
 .bg-yellow {
-	background-color: #fff9b0;
+	background-color: #fff8a7;
 }
 
 @media (min-width: 992px) {
@@ -154,3 +154,29 @@ h5 {
 	.sidenav---navtext---1AE_f {
 	color: #d4d4d4;
 }
+
+/*
+.graph1 .card-header,
+.graph1 .card-footer {
+	background-color: hsl(0, 100%, 70%);
+}
+
+.graph1 .graph-sec-dot,
+.graph1 .graph-trendline,
+.graph1 .graph-plot {
+	stroke: hsl(0, 100%, 70%);
+}
+
+.graph1 .graph-sec-dot,
+.graph1 .graph-bg {
+	fill: hsl(0, 100%, 98%);
+}
+
+.graph1 .graph-contrast-dot {
+	stroke: hsl(0, 100%, 98%);
+}
+
+.graph1 .graph-contrast-dot,
+.graph1 .graph-inner-dot {
+	fill: #ffffff;
+}*/
