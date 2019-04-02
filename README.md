@@ -1,6 +1,8 @@
 ## Overview
 Currently a work-in-progress.
 
+![Dashboard](https://raw.githubusercontent.com/saamirt/garden-gnome-app/master/doc/dashboard.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
