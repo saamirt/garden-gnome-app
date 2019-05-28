@@ -12,6 +12,12 @@ app.get('/api/greeting', (req, res) => {
 	res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
+app.post('/api/toggle', (req, res) => {
+	console.log(req);
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify({ greeting: "alkjshflkjashfdlkjs" }));
+});
+
 app.listen(3001, () =>
 	console.log('Express server is running on localhost:3001')
 );

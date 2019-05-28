@@ -4,23 +4,26 @@ import GnomeCard from './GnomeCard';
 
 export default class GnomesList extends Component {
 	state = {
+		name: '',
 		url: 'https://pokeapi.co/api/v2/pokemon/',
-		gnomeList: null
+		gnomeList: null,
+		gnome: null
 	};
 
 	async componentDidMount() {
 		const res = await axios.get(this.state.url);
+
 		this.setState({
 			gnomeList: res.data['results'].slice(0, 6).map(g => {
-				let c1 = ['8CFF66', 'FF4A4A', '435AFF', 'B14DFF', 'FFFF6C'][
-					Math.floor(Math.random() * 5)
+				let c1 = ['ffffff', 'ff7373', '6779ff'][
+					Math.floor(Math.random() * 3)
 				];
-				let c2 = ['8CFF66', 'FF4A4A', '435AFF', 'B14DFF', 'FFFF6C'][
-					Math.floor(Math.random() * 5)
+				let c2 = ['acff90', 'ff7373', '6779ff'][
+					Math.floor(Math.random() * 3)
 				];
 				while (c2 === c1) {
-					c2 = ['8CFF66', 'FF4A4A', '435AFF', 'B14DFF', 'FFFF6C'][
-						Math.floor(Math.random() * 5)
+					c2 = ['acff90', 'ff7373', '6779ff'][
+						Math.floor(Math.random() * 3)
 					];
 				}
 				return Object.assign(g, {
@@ -39,6 +42,8 @@ export default class GnomesList extends Component {
 				});
 			})
 		});
+
+		this.setState({ gnome: res.data['results'] });
 	}
 
 	render() {
@@ -51,7 +56,6 @@ export default class GnomesList extends Component {
 								key={gnome.name}
 								name={gnome.name}
 								url={gnome.url}
-								gnomeIcon={gnome.gnomeIcon}
 							/>
 						))}
 					</div>

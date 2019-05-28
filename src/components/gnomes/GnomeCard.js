@@ -4,21 +4,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import GnomeImage from './GnomeImage';
 
-const Card = styled.div`
-	opacity: 0.95;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-	&:hover {
-		box-shadow: 0 8px 6px rgba(0, 0, 0, 0.15),
-			0 0px 16px 0px rgba(0, 0, 0, 0.22);
-	}
-	-moz-user-select: none;
-	-website-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-o-user-select: none;
-`;
-
 const StyledLink = styled(Link)`
 	text-decoration: none;
 	color: black;
@@ -66,28 +51,30 @@ export default class GnomeCard extends Component {
 
 	render() {
 		return (
-			<div className="col-md-3 col-sm-6 mb-5">
+			<div className="col-xl-4 col-lg-6 mb-4">
 				<StyledLink to={`gnome/${this.state.gnomeIndex}`}>
-					<Card
-						className="card p-5 align-items-center"
-					>
-						<h3>
-							Gnome {this.toTitleCase(this.state.gnomeIndex)}
-						</h3>
-						{//<GnomeImage gnomeIcon={this.props.gnomeIcon} />
-						}
-						<h5>
-							{this.state.status ? (
-								<span className="badge badge-success">
-									Online
-								</span>
-							) : (
-								<span className="badge badge-danger">
-									Offline
-								</span>
-							)}
-						</h5>
-					</Card>
+					<div className="card mb-3 gnome-card p-2">
+						<div className="row no-gutters align-items-center justify-content-between">
+							<div>
+								<div className="card-body">
+									<h3 className="card-title mb-1 font-weight-bold">
+										Gnome {this.state.gnomeIndex}
+									</h3>
+									<h5 className="card-text mb-1 text-muted font-weight-light">
+										Last updated 3 mins ago
+									</h5>
+									<h5 className="card-text text-connected font-weight-medium">
+										Connected
+									</h5>
+								</div>
+							</div>
+							<div className="text-center p-4">
+								<div className="card-body bg-yellow rounded-circle square float-right">
+									<GnomeImage />
+								</div>
+							</div>
+						</div>
+					</div>
 				</StyledLink>
 			</div>
 		);

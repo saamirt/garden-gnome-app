@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+Currently a work-in-progress.
+
+![Dashboard](https://raw.githubusercontent.com/saamirt/garden-gnome-app/master/doc/dashboard.png)
 
 ## Available Scripts
 
