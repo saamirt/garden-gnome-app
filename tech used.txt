@@ -16,3 +16,6 @@ AWS DynamoDB
 MQTT protocol
 
 Adobe Illustrator
+
+Useful learning links
+    https://serverless-stack.com/chapters/login-with-aws-cognito.html

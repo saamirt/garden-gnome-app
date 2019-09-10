@@ -27,6 +27,7 @@
         "@vx/responsive": "0.0.188",
         "@vx/scale": "0.0.182",
         "@vx/shape": "0.0.184",
+        "aws-amplify": "^1.1.38",
         "axios": "^0.18.1",
         "bootstrap": "^4.3.1",
         "react": "^16.9.0",

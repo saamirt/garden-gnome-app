@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import "./Login.css";
+import { Auth } from "aws-amplify";
 
 export default class Login extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Login extends Component {
   }
 
   validateForm() {
-    return this.state.email.length > 0 && this.state.password.length > 0;
+    return this.state.email.length > 0 && this.state.password.length > 8;
   }
 
   handleChange = event => {
@@ -22,15 +23,23 @@ export default class Login extends Component {
     });
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
+  
+    try {
+      await Auth.signIn(this.state.email, this.state.password);
+      this.props.userHasAuthenticated(true);
+      alert("Logged in");
+    } catch (e) {
+      alert(e.message);
+    }
   }
 
   render() {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
+          <FormGroup controlId="email" size="large">
             <FormLabel >Email</FormLabel >
             <FormControl
               autoFocus
@@ -39,7 +48,7 @@ export default class Login extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
+          <FormGroup controlId="password" size="large">
             <FormLabel >Password</FormLabel >
             <FormControl
               value={this.state.password}
@@ -49,7 +58,7 @@ export default class Login extends Component {
           </FormGroup>
           <Button
             block
-            bsSize="large"
+            size="large"
             disabled={!this.validateForm()}
             type="submit"
           >

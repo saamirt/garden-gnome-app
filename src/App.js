@@ -17,10 +17,26 @@ import backgroundImg from "./assets/bg-white-01.jpg";
 //import backgroundImg from './assets/bg.jpg';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      isAuthenticated: false
+    };
+  }
+  
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+
   showSettings(event) {
     event.preventDefault();
   }
   render() {
+    const childProps = {
+      isAuthenticated: this.state.isAuthenticated,
+      userHasAuthenticated: this.userHasAuthenticated
+    };
     return (
       <Router>
         <Route
@@ -35,8 +51,17 @@ class App extends Component {
                 }}
               >
                 <SideNav.Toggle />
-                <SideNav.Nav defaultSelected="home">
-                  <NavItem eventKey="">
+                <SideNav.Nav defaultSelected="login">
+                  <NavItem eventKey="login">
+                    <NavIcon>
+                      <i
+                        className="fa fa-sign-in"
+                        style={{ fontSize: "1.75em" }}
+                      />{" "}
+                    </NavIcon>{" "}
+                    <NavText> Login </NavText>{" "}
+                  </NavItem>{" "}
+                  <NavItem eventKey="home">
                     <NavIcon>
                       <i
                         className="fa fa-fw fa-home"
@@ -63,9 +88,9 @@ class App extends Component {
                   }}
                 >
                   <Switch>
-                    <Route exact path="/login" component={Login} />{" "}
-                    <Route exact path="/" component={Dashboard} />{" "}
-                    <Route exact path="/gnome/:gnomeindex" component={Gnome} />{" "}
+                    <Route exact childProps={childProps} path="/login" component={Login} />{" "}
+                    <Route exact childProps={childProps} path="/home" component={Dashboard} />{" "}
+                    <Route exact childProps={childProps} path="/gnome/:gnomeindex" component={Gnome} />{" "}
                   </Switch>{" "}
                 </div>{" "}
               </div>{" "}
