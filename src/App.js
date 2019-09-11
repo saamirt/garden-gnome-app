@@ -5,7 +5,7 @@ import Login from "./components/login/Login";
 import Dashboard from "./components/layout/Dashboard";
 import Gnome from "./components/gnomes/Gnome";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-
+import ClickOutside from "react-click-outside";
 // Be sure to include styles at some point, probably during your bootstraping
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 
@@ -19,15 +19,15 @@ import backgroundImg from "./assets/bg-white-01.jpg";
 class App extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       isAuthenticated: false
     };
   }
-  
+
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
-  }
+  };
 
   showSettings(event) {
     event.preventDefault();
@@ -42,36 +42,46 @@ class App extends Component {
         <Route
           render={({ location, history }) => (
             <React.Fragment>
-              <SideNav
-                onSelect={selected => {
-                  const to = "/" + selected;
-                  if (location.pathname !== to) {
-                    history.push(to);
-                  }
+              <ClickOutside
+                onClickOutside={() => {
+                  this.setState({ expanded: false });
                 }}
               >
-                <SideNav.Toggle />
-                <SideNav.Nav defaultSelected="login">
-                  <NavItem eventKey="login">
-                    <NavIcon>
-                      <i
-                        className="fa fa-sign-in"
-                        style={{ fontSize: "1.75em" }}
-                      />{" "}
-                    </NavIcon>{" "}
-                    <NavText> Login </NavText>{" "}
-                  </NavItem>{" "}
-                  <NavItem eventKey="home">
-                    <NavIcon>
-                      <i
-                        className="fa fa-fw fa-home"
-                        style={{ fontSize: "1.75em" }}
-                      />{" "}
-                    </NavIcon>{" "}
-                    <NavText> Home </NavText>{" "}
-                  </NavItem>{" "}
-                </SideNav.Nav>{" "}
-              </SideNav>{" "}
+                <SideNav
+                  onSelect={selected => {
+                    const to = "/" + selected;
+                    if (location.pathname !== to) {
+                      history.push(to);
+                    }
+                  }}
+                  expanded={this.state.expanded}
+                  onToggle={expanded => {
+                    this.setState({ expanded });
+                  }}
+                >
+                  <SideNav.Toggle />
+                  <SideNav.Nav defaultSelected="login">
+                    <NavItem eventKey="login">
+                      <NavIcon>
+                        <i
+                          className="fa fa-sign-in"
+                          style={{ fontSize: "1.75em" }}
+                        />{" "}
+                      </NavIcon>{" "}
+                      <NavText> Login </NavText>{" "}
+                    </NavItem>{" "}
+                    <NavItem eventKey="home">
+                      <NavIcon>
+                        <i
+                          className="fa fa-fw fa-home"
+                          style={{ fontSize: "1.75em" }}
+                        />{" "}
+                      </NavIcon>{" "}
+                      <NavText> Home </NavText>{" "}
+                    </NavItem>{" "}
+                  </SideNav.Nav>{" "}
+                </SideNav>{" "}
+              </ClickOutside>
               <div
                 className="App"
                 style={{
@@ -88,9 +98,24 @@ class App extends Component {
                   }}
                 >
                   <Switch>
-                    <Route exact childProps={childProps} path="/login" component={Login} />{" "}
-                    <Route exact childProps={childProps} path="/home" component={Dashboard} />{" "}
-                    <Route exact childProps={childProps} path="/gnome/:gnomeindex" component={Gnome} />{" "}
+                    <Route
+                      exact
+                      childProps={childProps}
+                      path="/login"
+                      component={Login}
+                    />{" "}
+                    <Route
+                      exact
+                      childProps={childProps}
+                      path="/home"
+                      component={Dashboard}
+                    />{" "}
+                    <Route
+                      exact
+                      childProps={childProps}
+                      path="/gnome/:gnomeindex"
+                      component={Gnome}
+                    />{" "}
                   </Switch>{" "}
                 </div>{" "}
               </div>{" "}
