@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route } from "react-router-dom";
-
-// import Login from "./components/login/Login";
-// import SignUp from "./components/login/SignUp";
-// import Dashboard from "./components/layout/Dashboard";
-// import Gnome from "./components/gnomes/Gnome";
+import {withRouter} from "react-router-dom";
+import {Auth} from "aws-amplify";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import ClickOutside from "react-click-outside";
 // Be sure to include styles at some point, probably during your bootstraping
@@ -23,14 +20,34 @@ class App extends Component {
     super(props);
 
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: false,
+      isAuthenticating: true
     };
   }
-
+  async componentDidMount() {
+    try {
+      await Auth.currentSession();
+      this.userHasAuthenticated(true);
+    }
+    catch(e) {
+      if (e !== 'No current user') {
+        alert(e);
+      }
+    }
+    this.setState({ isAuthenticating: false });
+  }
+  
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
   };
+  handleLogout = async event => {
+    await Auth.signOut();
+  
+    this.userHasAuthenticated(false);
 
+    this.props.history.push("/login");
+  }
+  
   showSettings(event) {
     event.preventDefault();
   }
@@ -40,6 +57,7 @@ class App extends Component {
       userHasAuthenticated: this.userHasAuthenticated
     };
     return (
+      !this.state.isAuthenticating &&
       <Router>
         <Route
           render={({ location, history }) => (
@@ -65,15 +83,6 @@ class App extends Component {
                   <SideNav.Toggle />
                   {this.state.isAuthenticated ? (
                     <SideNav.Nav defaultSelected="home">
-                      <NavItem eventKey="logout">
-                        <NavIcon>
-                          <i
-                            className="fa fa-sign-in"
-                            style={{ fontSize: "1.75em" }}
-                          />{" "}
-                        </NavIcon>{" "}
-                        <NavText> Logout </NavText>{" "}
-                      </NavItem>
                       <NavItem eventKey="home">
                         <NavIcon>
                           <i
@@ -83,6 +92,15 @@ class App extends Component {
                         </NavIcon>{" "}
                         <NavText> Home </NavText>{" "}
                       </NavItem>{" "}
+                      <NavItem onClick={this.handleLogout}>
+                        <NavIcon>
+                          <i
+                            className="fa fa-sign-in"
+                            style={{ fontSize: "1.75em" }}
+                          />{" "}
+                        </NavIcon>{" "}
+                        <NavText> Logout </NavText>{" "}
+                      </NavItem>
                     </SideNav.Nav>
                   ) : (
                     <SideNav.Nav defaultSelected="login">
@@ -124,33 +142,6 @@ class App extends Component {
                   }}
                 >
                   <Routes childProps={childProps}/>
-                  {/* <Switch>
-                    <Route
-                      exact
-                      childProps={childProps}
-                      path="/login"
-                      render={childProps=><Login {...childProps}{...this.props}/>}
-                      //component={Login}
-                    />{" "}
-                    <Route
-                      exact
-                      childProps={childProps}
-                      path="/home"
-                      component={Dashboard}
-                    />{" "}
-                    <Route
-                      exact
-                      childProps={childProps}
-                      path="/gnome/:gnomeindex"
-                      component={Gnome}
-                    />{" "}
-                    <Route
-                      exact
-                      childProps={childProps}
-                      path="/signup"
-                      component={SignUp}
-                    />{" "}
-                  </Switch>{" "} */}
                 </div>{" "}
               </div>{" "}
             </React.Fragment>
@@ -161,4 +152,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
