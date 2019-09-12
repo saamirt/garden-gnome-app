@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 
-import Login from "./components/login/Login";
-import Dashboard from "./components/layout/Dashboard";
-import Gnome from "./components/gnomes/Gnome";
+// import Login from "./components/login/Login";
+// import SignUp from "./components/login/SignUp";
+// import Dashboard from "./components/layout/Dashboard";
+// import Gnome from "./components/gnomes/Gnome";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
 import ClickOutside from "react-click-outside";
 // Be sure to include styles at some point, probably during your bootstraping
@@ -11,6 +12,7 @@ import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 
 import "./App.css";
 import backgroundImg from "./assets/bg-white-01.jpg";
+import Routes from "./Routes";
 //import backgroundImg from './assets/bg-green.jpg';
 //import backgroundImg from './assets/bg-light.jpg';
 //import backgroundImg from './assets/Artboard-1.png';
@@ -52,6 +54,7 @@ class App extends Component {
                     const to = "/" + selected;
                     if (location.pathname !== to) {
                       history.push(to);
+                      console.log(childProps);
                     }
                   }}
                   expanded={this.state.expanded}
@@ -60,26 +63,49 @@ class App extends Component {
                   }}
                 >
                   <SideNav.Toggle />
-                  <SideNav.Nav defaultSelected="login">
-                    <NavItem eventKey="login">
-                      <NavIcon>
-                        <i
-                          className="fa fa-sign-in"
-                          style={{ fontSize: "1.75em" }}
-                        />{" "}
-                      </NavIcon>{" "}
-                      <NavText> Login </NavText>{" "}
-                    </NavItem>{" "}
-                    <NavItem eventKey="home">
-                      <NavIcon>
-                        <i
-                          className="fa fa-fw fa-home"
-                          style={{ fontSize: "1.75em" }}
-                        />{" "}
-                      </NavIcon>{" "}
-                      <NavText> Home </NavText>{" "}
-                    </NavItem>{" "}
-                  </SideNav.Nav>{" "}
+                  {this.state.isAuthenticated ? (
+                    <SideNav.Nav defaultSelected="home">
+                      <NavItem eventKey="logout">
+                        <NavIcon>
+                          <i
+                            className="fa fa-sign-in"
+                            style={{ fontSize: "1.75em" }}
+                          />{" "}
+                        </NavIcon>{" "}
+                        <NavText> Logout </NavText>{" "}
+                      </NavItem>
+                      <NavItem eventKey="home">
+                        <NavIcon>
+                          <i
+                            className="fa fa-fw fa-home"
+                            style={{ fontSize: "1.75em" }}
+                          />{" "}
+                        </NavIcon>{" "}
+                        <NavText> Home </NavText>{" "}
+                      </NavItem>{" "}
+                    </SideNav.Nav>
+                  ) : (
+                    <SideNav.Nav defaultSelected="login">
+                      <NavItem eventKey="login">
+                        <NavIcon>
+                          <i
+                            className="fa fa-sign-in"
+                            style={{ fontSize: "1.75em" }}
+                          />{" "}
+                        </NavIcon>{" "}
+                        <NavText> Login </NavText>{" "}
+                      </NavItem>
+                      <NavItem eventKey="signup">
+                        <NavIcon>
+                          <i
+                            className="fa fa-sign-in"
+                            style={{ fontSize: "1.75em" }}
+                          />{" "}
+                        </NavIcon>{" "}
+                        <NavText> Sign Up </NavText>{" "}
+                      </NavItem>
+                    </SideNav.Nav>
+                  )}
                 </SideNav>{" "}
               </ClickOutside>
               <div
@@ -97,12 +123,14 @@ class App extends Component {
                     paddingBottom: "4rem"
                   }}
                 >
-                  <Switch>
+                  <Routes childProps={childProps}/>
+                  {/* <Switch>
                     <Route
                       exact
                       childProps={childProps}
                       path="/login"
-                      component={Login}
+                      render={childProps=><Login {...childProps}{...this.props}/>}
+                      //component={Login}
                     />{" "}
                     <Route
                       exact
@@ -116,7 +144,13 @@ class App extends Component {
                       path="/gnome/:gnomeindex"
                       component={Gnome}
                     />{" "}
-                  </Switch>{" "}
+                    <Route
+                      exact
+                      childProps={childProps}
+                      path="/signup"
+                      component={SignUp}
+                    />{" "}
+                  </Switch>{" "} */}
                 </div>{" "}
               </div>{" "}
             </React.Fragment>

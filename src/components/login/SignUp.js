@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import "./Login.css";
 import { Auth } from "aws-amplify";
 
-export default class Login extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
 
@@ -28,7 +28,6 @@ export default class Login extends Component {
   
     try {
       await Auth.signIn(this.state.email, this.state.password);
-      console.log(this.props);
       this.props.userHasAuthenticated(true);
       alert("Logged in");
     } catch (e) {
