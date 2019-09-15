@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { HashRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route, Redirect } from "react-router-dom";
 import {withRouter} from "react-router-dom";
 import {Auth} from "aws-amplify";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
@@ -141,6 +141,16 @@ class App extends Component {
                     paddingBottom: "4rem"
                   }}
                 >
+                  <Route
+                    exact path="/"
+                    render={() =>
+                      childProps.isAuthenticated ? (
+                        <Redirect to="/home" />
+                      ) : (
+                        <Redirect to="/login" />
+                      )
+                    }
+                  />
                   <Routes childProps={childProps}/>
                 </div>{" "}
               </div>{" "}
