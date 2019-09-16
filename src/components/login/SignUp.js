@@ -59,7 +59,7 @@ export default class Signup extends Component {
   renderConfirmationForm() {
     return (
       <form onSubmit={this.handleConfirmationSubmit}>
-        <FormGroup controlId="confirmationCode" bsSize="large">
+        <FormGroup controlId="confirmationCode" size="large">
           <FormLabel>Confirmation Code</FormLabel>
           <FormControl
             autoFocus
@@ -71,7 +71,7 @@ export default class Signup extends Component {
         </FormGroup>
         <LoaderButton
           block
-          bsSize="large"
+          size="large"
           disabled={!this.validateConfirmationForm()}
           type="submit"
           isLoading={this.state.isLoading}
@@ -85,7 +85,7 @@ export default class Signup extends Component {
   renderForm() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
+        <FormGroup controlId="email" size="large">
           <FormLabel>Email</FormLabel>
           <FormControl
             autoFocus
@@ -94,7 +94,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
+        <FormGroup controlId="password" size="large">
           <FormLabel>Password</FormLabel>
           <FormControl
             value={this.state.password}
@@ -102,7 +102,7 @@ export default class Signup extends Component {
             type="password"
           />
         </FormGroup>
-        <FormGroup controlId="confirmPassword" bsSize="large">
+        <FormGroup controlId="confirmPassword" size="large">
           <FormLabel>Confirm Password</FormLabel>
           <FormControl
             value={this.state.confirmPassword}
@@ -112,7 +112,7 @@ export default class Signup extends Component {
         </FormGroup>
         <LoaderButton
           block
-          bsSize="large"
+          size="large"
           disabled={!this.validateForm()}
           type="submit"
           isLoading={this.state.isLoading}
