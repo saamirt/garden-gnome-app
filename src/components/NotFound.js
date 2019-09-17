@@ -1,6 +1,8 @@
 import React from "react";
 import {Button, Jumbotron} from "react-bootstrap";
 
+//            TODO:Add lost gnome picture
+
 export default (childProps) => (
     <div>
         <Jumbotron>
@@ -28,7 +30,6 @@ export default (childProps) => (
                     Go back home
                 </Button>
             </p>
-            //TODO:Add lost gnome picture
         </Jumbotron>
     </div>
   );
