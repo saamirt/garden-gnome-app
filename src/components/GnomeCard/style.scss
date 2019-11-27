@@ -1,0 +1,44 @@
+.gnome-card-col {
+	margin-bottom: 2em;
+}
+
+.gnome-card {
+	text-decoration: none;
+	// cursor: pointer;
+	border-radius: 1.25em;
+	color: #545454;
+	min-width: 427px;
+	max-width: 600px;
+	margin-bottom: 2em;
+	transition: 0.08s linear;
+	user-select: none;
+
+	&:focus,
+	&:visited,
+	&:link,
+	&:hover,
+	&:active {
+		text-decoration: none;
+		color: #545454;
+	}
+	&:hover {
+		box-shadow: hsla(0, 0%, 0%, 0.05) 0px 0px 12px 0px;
+		transform: scale(1.005);
+	}
+}
+
+.gnome-card__body {
+	padding: 2rem;
+}
+
+.gnome-card__title {
+	font-size: 2rem;
+}
+
+.gnome-card__date {
+	color: #d8d8d8 !important;
+}
+
+.gnome-card__status {
+	color: #7a7a7a;
+}

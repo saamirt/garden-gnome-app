@@ -1,0 +1,14 @@
+.header {
+	height: 82px;
+}
+
+.header__link {
+	color: #545454;
+	margin-left: 2rem;
+	&:hover {
+		color: #9894bc;
+	}
+	&.active {
+		color: #9894bc;
+	}
+}

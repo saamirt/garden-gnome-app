@@ -1,165 +1,93 @@
-import React, { Component } from "react";
-import { HashRouter as Router, Route, Redirect } from "react-router-dom";
-import {withRouter} from "react-router-dom";
-import {Auth} from "aws-amplify";
-import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import ClickOutside from "react-click-outside";
-// Be sure to include styles at some point, probably during your bootstraping
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import React, { Suspense } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { connect, useSelector } from "react-redux";
+import { isLoaded } from "react-redux-firebase";
 
-import "./App.css";
-import backgroundImg from "./assets/bg-white-01.jpg";
-import Routes from "./Routes";
-//import backgroundImg from './assets/bg-green.jpg';
-//import backgroundImg from './assets/bg-light.jpg';
-//import backgroundImg from './assets/Artboard-1.png';
-//import backgroundImg from './assets/bg.jpg';
+import Header from "./components/Header";
+import Loader from "./components/Loader";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+import HomePage from "./containers/HomePage/HomePage";
+import SignIn from "./containers/SignIn/SignIn";
+import SignUp from "./containers/SignUp/SignUp";
+import Logout from "./containers/Logout/Logout";
+// import TodosPage from "./containers/TodosPage/TodosPage";
+import AddTodoPage from "./containers/AddTodoPage/AddTodoPage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
+import VerifyEmailPage from "./containers/VerifyEmailPage/VerifyEmailPage";
+import GnomesPage from "./containers/GnomesPage/GnomesPage";
+import GnomeDetailsPage from "./containers/GnomeDetailsPage/GnomeDetailsPage";
+const TodosPage = React.lazy(() => import("./containers/TodosPage/TodosPage"));
 
-    this.state = {
-      isAuthenticated: false,
-      isAuthenticating: true
-    };
-  }
-  async componentDidMount() {
-    try {
-      await Auth.currentSession();
-      this.userHasAuthenticated(true);
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
-      }
-    }
-    this.setState({ isAuthenticating: false });
-  }
-  
-  userHasAuthenticated = authenticated => {
-    this.setState({ isAuthenticated: authenticated });
-  };
-  handleLogout = async event => {
-    await Auth.signOut();
-  
-    this.userHasAuthenticated(false);
+const App = ({ loggedIn, emailVerified }) => {
+	const auth = useSelector(state => state.firebase.auth);
 
-    this.props.history.push("/login");
-  }
-  
-  showSettings(event) {
-    event.preventDefault();
-  }
-  render() {
-    const childProps = {
-      isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
-    };
-    return (
-      !this.state.isAuthenticating &&
-      <Router>
-        <Route
-          render={({ location, history }) => (
-            <React.Fragment>
-              <ClickOutside
-                onClickOutside={() => {
-                  this.setState({ expanded: false });
-                }}
-              >
-                <SideNav
-                  onSelect={selected => {
-                    const to = "/" + selected;
-                    if (location.pathname !== to) {
-                      history.push(to);
-                      console.log(childProps);
-                    }
-                  }}
-                  expanded={this.state.expanded}
-                  onToggle={expanded => {
-                    this.setState({ expanded });
-                  }}
-                >
-                  <SideNav.Toggle />
-                  {this.state.isAuthenticated ? (
-                    <SideNav.Nav defaultSelected="home">
-                      <NavItem eventKey="home">
-                        <NavIcon>
-                          <i
-                            className="fa fa-fw fa-home"
-                            style={{ fontSize: "1.75em" }}
-                          />{" "}
-                        </NavIcon>{" "}
-                        <NavText> Home </NavText>{" "}
-                      </NavItem>{" "}
-                      <NavItem onClick={this.handleLogout}>
-                        <NavIcon>
-                          <i
-                            className="fa fa-sign-in"
-                            style={{ fontSize: "1.75em" }}
-                          />{" "}
-                        </NavIcon>{" "}
-                        <NavText> Logout </NavText>{" "}
-                      </NavItem>
-                    </SideNav.Nav>
-                  ) : (
-                    <SideNav.Nav defaultSelected="login">
-                      <NavItem eventKey="login">
-                        <NavIcon>
-                          <i
-                            className="fa fa-sign-in"
-                            style={{ fontSize: "1.75em" }}
-                          />{" "}
-                        </NavIcon>{" "}
-                        <NavText> Login </NavText>{" "}
-                      </NavItem>
-                      <NavItem eventKey="signup">
-                        <NavIcon>
-                          <i
-                            className="fa fa-sign-in"
-                            style={{ fontSize: "1.75em" }}
-                          />{" "}
-                        </NavIcon>{" "}
-                        <NavText> Sign Up </NavText>{" "}
-                      </NavItem>
-                    </SideNav.Nav>
-                  )}
-                </SideNav>{" "}
-              </ClickOutside>
-              <div
-                className="App"
-                style={{
-                  backgroundImage: `url(${backgroundImg})`,
-                  paddingLeft: "6rem",
-                  paddingRight: "2rem"
-                }}
-              >
-                <div
-                  className="container"
-                  style={{
-                    paddingTop: "4rem",
-                    paddingBottom: "4rem"
-                  }}
-                >
-                  <Route
-                    exact path="/"
-                    render={() =>
-                      childProps.isAuthenticated ? (
-                        <Redirect to="/home" />
-                      ) : (
-                        <Redirect to="/login" />
-                      )
-                    }
-                  />
-                  <Routes childProps={childProps}/>
-                </div>{" "}
-              </div>{" "}
-            </React.Fragment>
-          )}
-        />{" "}
-      </Router>
-    );
-  }
-}
+	let routes = loggedIn ? (
+		emailVerified ? (
+			<Suspense fallback={Loader()}>
+				<Switch>
+					<Route exact path="/" component={HomePage} />
+					<Route exact path="/gnomes" component={GnomesPage} />
+					<Route
+						exact
+						path="/gnome/:id"
+						component={GnomeDetailsPage}
+					/>
+					<Route exact path="/profile" component={ProfilePage} />
+					<Route exact path="/logout" component={Logout} />
+					<Redirect path="/signin" to="/" />
+					<Redirect to="/" />
+				</Switch>
+			</Suspense>
+		) : (
+			<Switch>
+				<Route exact path="/verify-email" component={VerifyEmailPage} />
+				<Route exact path="/logout" component={Logout} />
+				<Redirect to="/verify-email" />
+			</Switch>
+		)
+	) : (
+		<Switch>
+			<Route exact path="/signin" component={SignIn} />
+			<Route exact path="/signup" component={SignUp} />
+			<Redirect to="/signin" />
+		</Switch>
+	);
 
-export default withRouter(App);
+	return (
+		<BrowserRouter>
+			<HelmetProvider>
+				<Helmet
+					titleTemplate="%s - React Firebase Starer"
+					defaultTitle="React Firebase Starter"
+				>
+					<meta
+						name="description"
+						content="A basic boilerplate for future react apps"
+					/>
+				</Helmet>
+
+				{!isLoaded(auth) ? (
+					<Loader />
+				) : (
+					<>
+						<Header
+							loggedIn={loggedIn}
+							emailVerified={emailVerified}
+						/>
+						<div className="page">{routes}</div>
+					</>
+				)}
+			</HelmetProvider>
+		</BrowserRouter>
+	);
+};
+
+const mapStateToProps = ({ firebase }) => ({
+	loggedIn: firebase.auth.uid,
+	emailVerified: firebase.auth.emailVerified
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
