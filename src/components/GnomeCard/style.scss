@@ -4,10 +4,8 @@
 
 .gnome-card {
 	text-decoration: none;
-	// cursor: pointer;
-	border-radius: 1.25em;
 	color: #545454;
-	min-width: 427px;
+	min-width: 290px;
 	max-width: 600px;
 	margin-bottom: 2em;
 	transition: 0.08s linear;
@@ -28,17 +26,31 @@
 }
 
 .gnome-card__body {
-	padding: 2rem;
+	// padding: 2rem;
+	padding: 0;
+	margin: auto;
 }
 
 .gnome-card__title {
-	font-size: 2rem;
+	// font-size: 2rem;
+	font-size: 1.6rem;
 }
 
 .gnome-card__date {
 	color: #d8d8d8 !important;
+	font-size: 0.8rem;
 }
 
 .gnome-card__status {
 	color: #7a7a7a;
+	font-size: 0.8rem;
+}
+
+.gnome-card-row {
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+	padding: 1.2rem;
 }

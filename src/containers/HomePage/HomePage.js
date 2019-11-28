@@ -5,12 +5,8 @@ const HomePage = props => (
 	<div className="container">
 		<Helmet>
 			<title>Home Page</title>
-			<meta
-				name="description"
-				content="A React.js Boilerplate application"
-			/>
 		</Helmet>
-		<h1 className="text-center">Home Page</h1>
+		<h1 className="page__title text-center">Overview</h1>
 	</div>
 );
 

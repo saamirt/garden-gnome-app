@@ -11,13 +11,13 @@ import HomePage from "./containers/HomePage/HomePage";
 import SignIn from "./containers/SignIn/SignIn";
 import SignUp from "./containers/SignUp/SignUp";
 import Logout from "./containers/Logout/Logout";
-// import TodosPage from "./containers/TodosPage/TodosPage";
-import AddTodoPage from "./containers/AddTodoPage/AddTodoPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import VerifyEmailPage from "./containers/VerifyEmailPage/VerifyEmailPage";
-import GnomesPage from "./containers/GnomesPage/GnomesPage";
 import GnomeDetailsPage from "./containers/GnomeDetailsPage/GnomeDetailsPage";
-const TodosPage = React.lazy(() => import("./containers/TodosPage/TodosPage"));
+import AddGnomePage from "./containers/AddGnomePage/AddGnomePage";
+const GnomesPage = React.lazy(() =>
+	import("./containers/GnomesPage/GnomesPage")
+);
 
 const App = ({ loggedIn, emailVerified }) => {
 	const auth = useSelector(state => state.firebase.auth);
@@ -27,6 +27,7 @@ const App = ({ loggedIn, emailVerified }) => {
 			<Suspense fallback={Loader()}>
 				<Switch>
 					<Route exact path="/" component={HomePage} />
+					<Route exact path="/addgnome" component={AddGnomePage} />
 					<Route exact path="/gnomes" component={GnomesPage} />
 					<Route
 						exact
@@ -60,12 +61,7 @@ const App = ({ loggedIn, emailVerified }) => {
 				<Helmet
 					titleTemplate="%s - React Firebase Starer"
 					defaultTitle="React Firebase Starter"
-				>
-					<meta
-						name="description"
-						content="A basic boilerplate for future react apps"
-					/>
-				</Helmet>
+				></Helmet>
 
 				{!isLoaded(auth) ? (
 					<Loader />

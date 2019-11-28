@@ -76,24 +76,22 @@ const SignIn = ({
 	const handleSubmit = async event => {
 		event.preventDefault();
 		if (!form.email.trim() || !form.password.trim()) return;
-		await login(form);
+		await login(form).then(() => {
+			console.log(error);
+		});
 	};
 
 	return (
 		<div className="container">
 			<Helmet>
 				<title>Sign In</title>
-				<meta
-					name="description"
-					content="A React.js Boilerplate application"
-				/>
 			</Helmet>
 			{error ? (
 				<div className="alert alert-danger" role="alert">
 					{error}
 				</div>
 			) : null}
-			<h1>Sign In</h1>
+			<h1 className="page__title text-center">Sign In</h1>
 			<form
 				// onSubmit={async (values, { setSubmitting }) => {
 				// 	console.log(values);

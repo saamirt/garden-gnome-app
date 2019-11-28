@@ -3,11 +3,11 @@ import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore";
 
 import authReducer from "./authReducer";
-import todoReducer from "./todoReducer";
+import gnomeReducer from "./gnomeReducer";
 
 const rootReducer = combineReducers({
 	auth: authReducer,
-	todos: todoReducer,
+	gnomes: gnomeReducer,
 	firebase: firebaseReducer,
 	firestore: firestoreReducer
 });

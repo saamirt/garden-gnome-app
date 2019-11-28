@@ -1,26 +1,16 @@
-.cls-1 {
-	isolation: isolate;
-}
-
-.cls-2 {
-	opacity: 0.02;
-	mix-blend-mode: multiply;
-}
-
-.cls-3 {
-	fill: #fff;
-}
-
-.cls-4 {
-	fill: none;
-	stroke: #fff;
-	stroke-linecap: round;
-	stroke-linejoin: round;
-	stroke-width: 6px;
-}
-
 .add-gnome-card {
+	height: 100%;
+	min-height: 132px;
+	background: none;
+	border: 6px solid white;
+	border-style: dashed;
 	&:hover {
 		box-shadow: none;
 	}
+}
+
+.add-gnome-card__plus {
+	height: 38px;
+	width: auto;
+	margin: auto;
 }
