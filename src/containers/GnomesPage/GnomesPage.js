@@ -12,6 +12,7 @@ import AddGnomeCard from "../../components/AddGnomeCard";
 import * as actions from "../../store/actions/gnomeActions";
 
 const GnomesPage = ({ loading, error, gnomes, userId }) => {
+	console.log(gnomes);
 	return (
 		<div className="container">
 			<Helmet>
@@ -20,15 +21,13 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 			<h1 className="page__title text-center">My Gnomes</h1>
 			<div className="row">
 				{gnomes &&
-					gnomes[userId] &&
-					gnomes[userId].gnomes &&
-					gnomes[userId].gnomes
+					gnomes
 						.slice(0)
 						.map((gnome, i) => (
 							<GnomeCard
 								key={i}
 								id={i}
-								name={gnome.name}
+								name={gnome.properties.name}
 								color={gnome.color}
 							/>
 						))}
@@ -38,16 +37,25 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 	);
 };
 
-const mapStateToProps = ({ firebase, firestore, gnomes }) => ({
-	userId: firebase.auth.uid,
-	gnomes: firestore.data.gnomes,
-	loading: gnomes.loading,
-	error: gnomes.error
-});
+const mapStateToProps = ({ firebase, firestore, gnomes }) => {
+	let user =
+		firestore.data.users && firestore.data.gnomes && Object.values(firestore.data.users)[0];
+	return {
+		userId: firebase.auth.uid,
+		gnomes:
+			user &&
+			Object.keys(user.gnomes).map(i => ({
+				...firestore.data.gnomes[i],
+				properties: user.gnomes[i]
+			})),
+		loading: gnomes.loading,
+		error: gnomes.error
+	};
+};
 
 const mapDispatchToProps = {};
 
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect(props => [`gnomes/${props.userId}`])
+	firestoreConnect(props => ["gnomes", `users/${props.userId}`])
 )(GnomesPage);

@@ -9,6 +9,7 @@ const Header = ({ loggedIn, emailVerified }) => {
 		? emailVerified
 			? [
 					{ path: "/gnomes", text: "My Gnomes" },
+					{ path: "/addgnome", text: "Add Gnomes" },
 					{ path: "/profile", text: "Profile" },
 					{ path: "/logout", text: "Log Out" }
 			  ]
