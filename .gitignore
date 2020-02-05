@@ -31,3 +31,4 @@ yarn-error.log*
 ### Firebase Patch ###
 .runtimeconfig.json
 .firebase/
+package-lock.json
