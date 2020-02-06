@@ -1,32 +1,49 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Chart from "chart.js";
-
 import "./style.scss";
+let myLineChart;
 
-export default class LineChart extends Component {
+//--Chart Style Options--//
+Chart.defaults.global.defaultFontFamily = "somaticrounded"
+//Chart.defaults.global.legend.display = false;
+//--Chart Style Options--//
+
+export default class LineChart extends PureComponent {
     chartRef = React.createRef();
-    
+
     componentDidMount() {
+        this.buildChart();
+    }
+
+    componentDidUpdate() {
+        this.buildChart();
+    }
+
+    buildChart = () => {
         const myChartRef = this.chartRef.current.getContext("2d");
-        
-        new Chart(myChartRef, {
+        const { data, label, labels } = this.props;
+
+        if (typeof myLineChart !== "undefined") myLineChart.destroy();
+
+        myLineChart = new Chart(myChartRef, {
             type: "line",
             data: {
                 //Bring in data
-                labels: this.props.labels,
+                labels: labels,
                 datasets: [
                     {
-                        label: this.props.label,
-                        data: this.props.data,
+                        label: label,
+                        data: data,
                         fill: false,
-                        borderColor: "#c1bbff"
+                        borderColor: "#6610f2"
                     }
                 ]
             },
             options: {
                 //Customize chart options
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: false
+
             }
         });
     }
@@ -34,7 +51,7 @@ export default class LineChart extends Component {
         return (
             <div className="linechart-container">
                 <canvas
-                    id="myChart"
+                    id={this.props.label + "myLineChart"}
                     ref={this.chartRef}
                 />
             </div>
