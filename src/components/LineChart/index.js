@@ -20,12 +20,12 @@ export default class LineChart extends PureComponent {
     }
 
     buildChart = () => {
-        const myChartRef = this.chartRef.current.getContext("2d");
+        const myChartRef = this.chartRef.current;
         const { data, label, labels } = this.props;
 
-        if (typeof myLineChart !== "undefined") myLineChart.destroy();
+        if (typeof this.myLineChart !== "undefined") this.myLineChart.destroy();
 
-        myLineChart = new Chart(myChartRef, {
+        this.myLineChart = new Chart(myChartRef, {
             type: "line",
             data: {
                 //Bring in data
@@ -51,7 +51,6 @@ export default class LineChart extends PureComponent {
         return (
             <div className="linechart-container">
                 <canvas
-                    id={this.props.label + "myLineChart"}
                     ref={this.chartRef}
                 />
             </div>

@@ -42,22 +42,27 @@ const GnomeDetailsPage = ({ gnomes }) => {
 		  />
         </div>
       )}
-	  {/* {typeof gnomes != "undefined" && (
+      {typeof gnomes != "undefined" && (
+          <div className="row">
+        <LineChart
+              data={soil_humidity}
+              labels={timeLabels}
+              label={"Soil humidity"}
+            />
+          </div>
+      )}
+      {typeof gnomes != "undefined" && (
         <div className="row">
-		  <LineChart
-            data={soil_humidity}
-            labels={timeLabels}
-            label={"Soil humidity"}
-          />
-        </div>
-      )} */}
-	  
-          {/* <LineChart
+        <LineChart
             data={temperature}
             labels={timeLabels}
             label={"Temperature"}
-          /> */}
-    </div>
+          />
+        </div>
+      )}
+      </div>
+          
+    
   );
 };
 
