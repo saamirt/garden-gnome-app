@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import Chart from "chart.js";
 import "./style.scss";
-let myLineChart;
 
 //--Chart Style Options--//
 Chart.defaults.global.defaultFontFamily = "somaticrounded"
@@ -21,7 +20,7 @@ export default class LineChart extends PureComponent {
 
     buildChart = () => {
         const myChartRef = this.chartRef.current;
-        const { data, label, labels } = this.props;
+        const { data, label, labels, borderColor } = this.props;
 
         if (typeof this.myLineChart !== "undefined") this.myLineChart.destroy();
 
@@ -35,7 +34,9 @@ export default class LineChart extends PureComponent {
                         label: label,
                         data: data,
                         fill: false,
-                        borderColor: "#6610f2"
+                        borderColor: borderColor,
+                        cubicInterpolationMode:'default',
+                        lineTension: 0.5
                     }
                 ]
             },

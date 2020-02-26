@@ -7,10 +7,12 @@ import { useParams } from "react-router-dom";
 import * as actions from "../../store/actions/gnomeActions";
 import LineChart from "../../components/LineChart";
 
+
+
 const GnomeDetailsPage = ({ gnomes }) => {
   const colors = ["#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff"];
   const { id } = useParams();
-  var timeLabels;
+  var timeLabels = [];
   var gnome;
   var light = [];
   var soil_humidity = [];
@@ -18,8 +20,9 @@ const GnomeDetailsPage = ({ gnomes }) => {
   if (typeof gnomes != "undefined") {
     console.log(gnomes[id].data);
     gnome = gnomes[id].data;
-    timeLabels = Object.keys(gnome);
+    //timeLabels = Object.keys(gnome);
     for (let [key, properties] of Object.entries(gnome)) {
+      timeLabels.push(timeConverter(key));
       light.push(properties.light);
       soil_humidity.push(properties.soil_humidity);
       temperature.push(properties.temperature);
@@ -29,43 +32,77 @@ const GnomeDetailsPage = ({ gnomes }) => {
   return (
     <div className="container mt-5">
       <Helmet>
-        <title>Gnome data</title>
+        <title>Gnome Dashboard</title>
       </Helmet>
-      <h1 className="page__title text-center">Gnome data</h1>
-
+      <h1 className="page__title text-center">Gnome Dashboard</h1>
+      <div className="w-100 text-center mt-3">
+						<button
+							type="button"
+							className="col-4 btn btn-primary"
+						>
+							Turn Hose On
+						</button>
+      </div>
       {typeof gnomes != "undefined" && (
         <div className="row">
-		  <LineChart 
-			  data={light}
-			  labels={timeLabels} 
-			  label={"Light"} 
-		  />
-        </div>
-      )}
-      {typeof gnomes != "undefined" && (
-          <div className="row">
-        <LineChart
-              data={soil_humidity}
-              labels={timeLabels}
-              label={"Soil humidity"}
-            />
-          </div>
-      )}
-      {typeof gnomes != "undefined" && (
-        <div className="row">
-        <LineChart
-            data={temperature}
+          <LineChart
+            data={light}
             labels={timeLabels}
-            label={"Temperature"}
+            label={"Light"}
+            borderColor={"#00b4bd"}
           />
         </div>
       )}
-      </div>
-          
-    
+      {typeof gnomes != "undefined" && (
+        <div className="row">
+          <LineChart
+            data={soil_humidity}
+            labels={timeLabels}
+            label={"Soil humidity"}
+            borderColor={"#ff562a"}
+          />
+        </div>
+      )}
+      {typeof gnomes != "undefined" && (
+        <div className="row">
+          <LineChart
+            data={temperature}
+            labels={timeLabels}
+            label={"Temperature"}
+            borderColor={"#5610f2"}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
+function timeConverter(UNIX_timestamp) {
+  var a = new Date(parseInt(UNIX_timestamp, 10));
+  var months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time =
+    date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
+  return time;
+}
 const mapStateToProps = ({ firebase, firestore }) => {
   let user =
     firestore.data.users &&
