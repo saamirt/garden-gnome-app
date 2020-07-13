@@ -1,9 +1,15 @@
 import * as actions from "../actions/actionTypes";
 
 const initialState = {
-	error: null,
-	loading: false,
+	addGnome: {
+		error: null,
+		loading: false,
+	},
 	deleteGnome: {
+		error: null,
+		loading: false
+	},
+	editGnomeHose: {
 		error: null,
 		loading: false
 	}
@@ -12,13 +18,34 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case actions.ADD_GNOME_START:
-			return { ...state, loading: true };
-
+			return { 
+				...state,
+				addGnome: {
+					...state.addGnome,
+					loading: true,
+					error: false 
+				}
+			} 
+				
 		case actions.ADD_GNOME_SUCCESS:
-			return { ...state, loading: false, error: false };
+			return { 
+				...state,
+				addGnome: {
+					...state.addGnome,
+					loading: false, 
+					error: false
+				}
+			} 
 
 		case actions.ADD_GNOME_FAIL:
-			return { ...state, loading: false, error: payload };
+			return { 
+				...state,
+				addGnome:{
+					...state.addGnome,
+					loading: false, 
+					error: payload 
+				}
+			} 
 
 		case actions.DELETE_GNOME_START:
 			return {
@@ -41,6 +68,36 @@ export default (state = initialState, { type, payload }) => {
 				...state,
 				deleteGnome: {
 					...state.deleteGnome,
+					loading: false,
+					error: payload
+				}
+			};
+		
+		case actions.EDIT_GNOME_HOSE_START:
+			return {
+				...state,
+				editGnomeHose:{
+					...state.editGnomeHose,
+					loading: true,
+					error: false
+				}
+			};
+
+		case actions.EDIT_GNOME_HOSE_SUCCESS:
+			return {
+				...state,
+				editGnomeHose:{
+					...state.editGnomeHose,
+					loading: false,
+					error: false
+				}
+			};
+			
+		case actions.EDIT_GNOME_HOSE_FAIL:
+			return {
+				...state,
+				editGnomeHose:{
+					...state.editGnomeHose,
 					loading: false,
 					error: payload
 				}

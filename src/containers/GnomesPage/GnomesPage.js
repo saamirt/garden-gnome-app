@@ -9,7 +9,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import GnomeCard from "../../components/GnomeCard";
 import AddGnomeCard from "../../components/AddGnomeCard";
 
-import * as actions from "../../store/actions/gnomeActions";
+//import * as actions from "../../store/actions/gnomeActions";
 
 const GnomesPage = ({ loading, error, gnomes, userId }) => {
 	console.log(gnomes);

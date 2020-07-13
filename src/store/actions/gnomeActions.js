@@ -107,3 +107,53 @@ export const editGnome = (id, data) => async (
 		dispatch({ type: actions.ADD_GNOME_FAIL, payload: err.message });
 	}
 };
+
+// edit gnome hose
+export const editGnomeHose = (id, hose) => async(
+	dispatch, 
+	getState, 
+	{getFirestore}
+) =>{
+	//Only for testing purposes
+	let gnomeId = (id === 0)?"gnome1":id;
+	
+	console.log("start edit", hose, gnomeId);
+	const firestore = getFirestore();
+	dispatch({ type: actions.EDIT_GNOME_HOSE_START });
+	try {
+		const res = await firestore
+			.collection("gnomes")
+			.doc(gnomeId)
+			.get();
+		if (!res.data()) {
+			console.log("got here");
+			firestore
+				.collection("gnomes")
+				.doc(gnomeId)
+				.set({
+					...hose
+				});
+		} else {
+
+			firestore
+				.collection("gnomes")
+				.doc(gnomeId)
+				.update(
+					{
+						'hose.hose':hose.hose,
+						'hose.water_time':hose.water_time
+					}
+				).then(()=>{
+					console.log("Update log succesfull")
+					dispatch({ type: actions.EDIT_GNOME_HOSE_SUCCESS });
+				})
+				.catch((error) => {
+					// The document probably doesn't exist.
+					console.error("Error updating document: ", error);
+				});
+		}
+		return true;
+	} catch (err) {
+		dispatch({ type: actions.EDIT_GNOME_HOSE_FAIL, payload: err.message });
+	}
+}

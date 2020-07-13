@@ -25,8 +25,9 @@ const AddGnomePage = ({ addGnome, loading, error }) => {
 		event.preventDefault();
 		if (
 			!(form.name.trim() && form.latitude.trim() && form.longitude.trim())
-		)
+		){
 			return;
+		}
 		await addGnome({
 			...form,
 			latitude: Number(form.latitude),
@@ -122,6 +123,7 @@ const AddGnomePage = ({ addGnome, loading, error }) => {
 };
 
 const mapStateToProps = state => {
+	console.log(state);
 	const { gnomes } = state;
 	return {
 		loading: gnomes.loading,

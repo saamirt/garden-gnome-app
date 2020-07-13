@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import GnomeCard from "../GnomeCard";
-import GnomeImage from "../GnomeImage";
 import plusIcon from "./images/plus.svg";
 
 import "./style.scss";

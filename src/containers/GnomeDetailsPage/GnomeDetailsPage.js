@@ -7,28 +7,63 @@ import { useParams } from "react-router-dom";
 import * as actions from "../../store/actions/gnomeActions";
 import LineChart from "../../components/LineChart";
 
+import "./style.scss";
 
-
-const GnomeDetailsPage = ({ gnomes }) => {
-  const colors = ["#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff"];
+const GnomeDetailsPage = ({ gnomes, editGnomeHose, loading, error }) => {
+  //const colors = ["#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff"];
   const { id } = useParams();
-  var timeLabels = [];
-  var gnome;
-  var light = [];
-  var soil_humidity = [];
-  var temperature = [];
+  let timeLabels = [];
+  let gnome = {};
+  let light = [];
+  let soil_humidity = [];
+  let temperature = [];
+  let accu = 0;
+  let accu_amount = 10;
+  let isHoseOn = false;
   if (typeof gnomes != "undefined") {
-    console.log(gnomes[id].data);
-    gnome = gnomes[id].data;
+    //console.log(gnomes);
+    gnome = gnomes[id];
+    isHoseOn = gnome.hose.hose;
+    //console.log(isHoseOn);
     //timeLabels = Object.keys(gnome);
-    for (let [key, properties] of Object.entries(gnome)) {
+    Object.keys(gnome.data).sort().forEach(function(key){
       timeLabels.push(timeConverter(key));
-      light.push(properties.light);
-      soil_humidity.push(properties.soil_humidity);
-      temperature.push(properties.temperature);
-    }
+      light.push(gnome.data[key].light);
+      soil_humidity.push(gnome.data[key].soil_humidity);
+      temperature.push(gnome.data[key].temperature);
+    });
+    // for (let [key, properties] of Object.entries(gnome.data)) {
+    //   timeLabels.push(timeConverter(key));
+    //   light.push(properties.light);
+    //   soil_humidity.push(properties.soil_humidity);
+    //   temperature.push(properties.temperature);
+      // if(accu === 0){
+      //   if(timeLabels.length > 0){
+      //     light.push(light.pop()/accu_amount);
+      //     soil_humidity.push(soil_humidity.pop() /accu_amount);
+      //     temperature.push(temperature.pop() /accu_amount);
+      //   }
+      //   timeLabels.push(timeConverter(key));
+      //   light.push(properties.light);
+      //   soil_humidity.push(properties.soil_humidity);
+      //   temperature.push(properties.temperature);
+      // }else if(accu < accu_amount){
+      //   light.push(light.pop()+properties.light);
+      //   soil_humidity.push(soil_humidity.pop() + properties.soil_humidity);
+      //   temperature.push(temperature.pop() + properties.temperature);
+      // }
+      // accu++;
+      // accu = (accu === accu_amount)? 0: accu;
+    // }
   }
-
+  const turnHoseOn = async (event) =>{
+    let hose = {hose:true, water_time:1};
+    await editGnomeHose(id, hose).then(() => {
+      if (error) {
+        console.error("Error Editing Gnome Hose", error)
+      }
+    });
+  }
   return (
     <div className="container mt-5">
       <Helmet>
@@ -38,12 +73,14 @@ const GnomeDetailsPage = ({ gnomes }) => {
       <div className="w-100 text-center mt-3">
 						<button
 							type="button"
-							className="col-4 btn btn-primary"
+              className="col-4 btn btn-primary gnome_hose_button"
+              onClick={turnHoseOn}
+              disabled={loading || isHoseOn}
 						>
-							Turn Hose On
+              {(loading || isHoseOn)?"Hose is On": "Turn Hose On"}
 						</button>
       </div>
-      {typeof gnomes != "undefined" && (
+      {typeof gnome != "undefined" && (
         <div className="row">
           <LineChart
             data={light}
@@ -53,7 +90,7 @@ const GnomeDetailsPage = ({ gnomes }) => {
           />
         </div>
       )}
-      {typeof gnomes != "undefined" && (
+      {typeof gnome != "undefined" && (
         <div className="row">
           <LineChart
             data={soil_humidity}
@@ -63,7 +100,7 @@ const GnomeDetailsPage = ({ gnomes }) => {
           />
         </div>
       )}
-      {typeof gnomes != "undefined" && (
+      {typeof gnome != "undefined" && (
         <div className="row">
           <LineChart
             data={temperature}
@@ -77,9 +114,10 @@ const GnomeDetailsPage = ({ gnomes }) => {
   );
 };
 
+
 function timeConverter(UNIX_timestamp) {
-  var a = new Date(parseInt(UNIX_timestamp, 10));
-  var months = [
+  let a = new Date(parseInt(UNIX_timestamp, 10));
+  let months = [
     "Jan",
     "Feb",
     "Mar",
@@ -93,21 +131,22 @@ function timeConverter(UNIX_timestamp) {
     "Nov",
     "Dec"
   ];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
-  var time =
+  let year = a.getFullYear();
+  let month = months[a.getMonth()];
+  let date = a.getDate();
+  let hour = a.getHours();
+  let min = a.getMinutes();
+  let sec = a.getSeconds();
+  let time =
     date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
   return time;
 }
-const mapStateToProps = ({ firebase, firestore }) => {
+const mapStateToProps = ({ firebase, firestore, gnomes }) => {
   let user =
     firestore.data.users &&
     firestore.data.gnomes &&
     Object.values(firestore.data.users)[0];
+  let hose = gnomes.editGnomeHose;
   return {
     userId: firebase.auth.uid,
     gnomes:
@@ -115,11 +154,14 @@ const mapStateToProps = ({ firebase, firestore }) => {
       Object.keys(user.gnomes).map(i => ({
         ...firestore.data.gnomes[i],
         properties: user.gnomes[i]
-      }))
+      })),
+    loading: hose.loading,
+    error: hose.error
   };
 };
-const mapDispatchToProps = {};
-
+const mapDispatchToProps = {
+	editGnomeHose: actions.editGnomeHose,
+};
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => ["gnomes", `users/${props.userId}`])

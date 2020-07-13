@@ -7,44 +7,44 @@ import * as Yup from "yup";
 
 import * as actions from "../../store/actions/authActions";
 
-const Divider = styled.div`
-	display: flex;
-	align-items: center;
-	text-align: center;
-	&:before,
-	&:after {
-		content: "";
-		flex: 1;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-	}
-	&:before {
-		margin-right: 0.25em;
-	}
-	&:after {
-		margin-left: 0.25em;
-	}
-	// text-align: center;
-	// &:before {
-	// 	content: "";
-	// 	position: relative;
-	// 	width: 47%;
-	// 	background-color: rgba(0, 0, 0, 0.2);
-	// 	display: inline-block;
-	// 	height: 1px;
-	// 	vertical-align: middle;
-	// 	margin-right: 1em;
-	// }
-	// &:after {
-	// 	content: "";
-	// 	position: relative;
-	// 	width: 47%;
-	// 	background-color: rgba(0, 0, 0, 0.2);
-	// 	display: inline-block;
-	// 	height: 1px;
-	// 	vertical-align: middle;
-	// 	margin-left: 1em;
-	// }
-`;
+// const Divider = styled.div`
+// 	display: flex;
+// 	align-items: center;
+// 	text-align: center;
+// 	&:before,
+// 	&:after {
+// 		content: "";
+// 		flex: 1;
+// 		border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+// 	}
+// 	&:before {
+// 		margin-right: 0.25em;
+// 	}
+// 	&:after {
+// 		margin-left: 0.25em;
+// 	}
+// 	// text-align: center;
+// 	// &:before {
+// 	// 	content: "";
+// 	// 	position: relative;
+// 	// 	width: 47%;
+// 	// 	background-color: rgba(0, 0, 0, 0.2);
+// 	// 	display: inline-block;
+// 	// 	height: 1px;
+// 	// 	vertical-align: middle;
+// 	// 	margin-right: 1em;
+// 	// }
+// 	// &:after {
+// 	// 	content: "";
+// 	// 	position: relative;
+// 	// 	width: 47%;
+// 	// 	background-color: rgba(0, 0, 0, 0.2);
+// 	// 	display: inline-block;
+// 	// 	height: 1px;
+// 	// 	vertical-align: middle;
+// 	// 	margin-left: 1em;
+// 	// }
+// `;
 
 //makes setting and disappearing the success message thread-safe.
 //prevents setting success to false while other calls are still going on
