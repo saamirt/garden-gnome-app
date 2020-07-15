@@ -26,7 +26,7 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 						.map((gnome, i) => (
 							<GnomeCard
 								key={i}
-								id={i}
+								id={gnome.id}
 								name={gnome.properties.name}
 								color={gnome.color}
 							/>
@@ -40,13 +40,18 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 const mapStateToProps = ({ firebase, firestore, gnomes }) => {
 	let user =
 		firestore.data.users && firestore.data.gnomes && Object.values(firestore.data.users)[0];
+	// if(user){
+	// 	console.log(Object.values(firestore.data.users)[0]);
+	// 	//console.log(firestore.data.gnomes[Object.key(user.gnomes)[0]])
+	// }
 	return {
 		userId: firebase.auth.uid,
 		gnomes:
 			user &&
-			Object.keys(user.gnomes).map(i => ({
+			Object.keys(user.gnomes).map((i) => ({
 				...firestore.data.gnomes[i],
-				properties: user.gnomes[i]
+				properties: user.gnomes[i],
+				id:i
 			})),
 		loading: gnomes.loading,
 		error: gnomes.error

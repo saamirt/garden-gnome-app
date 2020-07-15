@@ -9,52 +9,32 @@ import LineChart from "../../components/LineChart";
 
 import "./style.scss";
 
-const GnomeDetailsPage = ({ gnomes, editGnomeHose, loading, error }) => {
+const GnomeDetailsPage = ({ gnome, editGnomeHose, loading, error }) => {
   //const colors = ["#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff", "#c1bbff"];
   const { id } = useParams();
   let timeLabels = [];
-  let gnome = {};
+  let unixDate = [];
   let light = [];
   let soil_humidity = [];
   let temperature = [];
-  let accu = 0;
-  let accu_amount = 10;
   let isHoseOn = false;
-  if (typeof gnomes != "undefined") {
-    //console.log(gnomes);
-    gnome = gnomes[id];
+  if (typeof gnome != "undefined") {
     isHoseOn = gnome.hose.hose;
-    //console.log(isHoseOn);
-    //timeLabels = Object.keys(gnome);
+    
     Object.keys(gnome.data).sort().forEach(function(key){
-      timeLabels.push(timeConverter(key));
+      unixDate.push(new Date(parseInt(key, 10)));
+      timeLabels.push(unixDate[unixDate.length - 1].toDateString());
       light.push(gnome.data[key].light);
       soil_humidity.push(gnome.data[key].soil_humidity);
       temperature.push(gnome.data[key].temperature);
     });
-    // for (let [key, properties] of Object.entries(gnome.data)) {
-    //   timeLabels.push(timeConverter(key));
-    //   light.push(properties.light);
-    //   soil_humidity.push(properties.soil_humidity);
-    //   temperature.push(properties.temperature);
-      // if(accu === 0){
-      //   if(timeLabels.length > 0){
-      //     light.push(light.pop()/accu_amount);
-      //     soil_humidity.push(soil_humidity.pop() /accu_amount);
-      //     temperature.push(temperature.pop() /accu_amount);
-      //   }
-      //   timeLabels.push(timeConverter(key));
-      //   light.push(properties.light);
-      //   soil_humidity.push(properties.soil_humidity);
-      //   temperature.push(properties.temperature);
-      // }else if(accu < accu_amount){
-      //   light.push(light.pop()+properties.light);
-      //   soil_humidity.push(soil_humidity.pop() + properties.soil_humidity);
-      //   temperature.push(temperature.pop() + properties.temperature);
-      // }
-      // accu++;
-      // accu = (accu === accu_amount)? 0: accu;
-    // }
+    let lastMonth = new Date();
+    lastMonth.setMonth(lastMonth.getMonth()-1);
+    let i = unixDate.findIndex(day => day>lastMonth);
+    timeLabels  = timeLabels.slice(i);
+    light   = light.slice(i);
+    soil_humidity = soil_humidity.slice(i);
+    temperature = temperature.slice(i);
   }
   const turnHoseOn = async (event) =>{
     let hose = {hose:true, water_time:1};
@@ -141,20 +121,21 @@ function timeConverter(UNIX_timestamp) {
     date + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
   return time;
 }
-const mapStateToProps = ({ firebase, firestore, gnomes }) => {
+const mapStateToProps = ({ firebase, firestore, gnomes }, props) => {
   let user =
     firestore.data.users &&
     firestore.data.gnomes &&
     Object.values(firestore.data.users)[0];
   let hose = gnomes.editGnomeHose;
+  let { id } = props.match.params;
   return {
     userId: firebase.auth.uid,
-    gnomes:
+    gnome:
       user &&
-      Object.keys(user.gnomes).map(i => ({
-        ...firestore.data.gnomes[i],
-        properties: user.gnomes[i]
-      })),
+      {
+        ...firestore.data.gnomes[id],
+        properties: user.gnomes[id]
+      },
     loading: hose.loading,
     error: hose.error
   };
