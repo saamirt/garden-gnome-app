@@ -20,14 +20,14 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 			</Helmet>
 			<h1 className="page__title text-center">My Gnomes</h1>
 			<div className="row">
-				{gnomes &&
+				{!!gnomes &&
 					gnomes
 						.slice(0)
 						.map((gnome, i) => (
 							<GnomeCard
 								key={i}
 								id={gnome.id}
-								name={gnome.properties.name}
+								name={gnome.name}
 								color={gnome.color}
 							/>
 						))}
@@ -38,21 +38,16 @@ const GnomesPage = ({ loading, error, gnomes, userId }) => {
 };
 
 const mapStateToProps = ({ firebase, firestore, gnomes }) => {
+	let userId = firebase.auth.uid;
 	let user =
-		firestore.data.users && firestore.data.gnomes && Object.values(firestore.data.users)[0];
+		firestore.data.users && firestore.data.users[userId];
 	// if(user){
 	// 	console.log(Object.values(firestore.data.users)[0]);
 	// 	//console.log(firestore.data.gnomes[Object.key(user.gnomes)[0]])
 	// }
 	return {
-		userId: firebase.auth.uid,
-		gnomes:
-			user &&
-			Object.keys(user.gnomes).map((i) => ({
-				...firestore.data.gnomes[i],
-				properties: user.gnomes[i],
-				id:i
-			})),
+		userId,
+		gnomes:	user && user.gnomes,
 		loading: gnomes.loading,
 		error: gnomes.error
 	};

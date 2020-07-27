@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
+import Loader from "../../components/Loader";
 
 import * as actions from "../../store/actions/gnomeActions";
+
+import "./style.scss";
 
 //makes setting and disappearing the success message thread-safe.
 //prevents setting success to false while other calls are still going on
@@ -11,7 +14,23 @@ let semaphore = 0;
 const AddGnomePage = ({ addGnome, loading, error }) => {
 	const [form, setForm] = useState({ name: "", latitude: "", longitude: "" });
 	const [success, setSuccess] = useState(false);
+	const [gnomeSetupLoading, setGnomeSetupLoading] = useState(true);
 
+	window.addEventListener('message', event => {
+		// IMPORTANT: check the origin of the data! 
+		if (event.origin.startsWith('http://192.168.4.1')) { 
+			// The data was sent from your site.
+			// Data sent with postMessage is stored in event.data:
+			console.log(event.data); 
+		} 
+	});
+	const handleHideLoader = e =>{
+		setGnomeSetupLoading(false);
+		//const iframe = document.getElementsByTagName("iframe")[0];
+		//console.log(iframe.contentWindow.document.getElementsByTagName("H1")[0]);
+		
+
+	}
 	const handleInputChange = e => {
 		const target = e.target;
 		const value =
@@ -66,7 +85,19 @@ const AddGnomePage = ({ addGnome, loading, error }) => {
 				</div>
 			) : null}
 			<div className="card p-5">
-				<h1 className="text-center">Add Gnome</h1>
+				<h1 id="add-Gnome-Page" className="text-center">Add Gnome</h1>
+				<div className="row-center gnomeSetupWrapper">
+					{gnomeSetupLoading ? (
+						<Loader />	
+					) : null}
+				</div>
+				<iframe 
+					className="row-center"
+					src="http://192.168.4.1/" 
+					title="Gnome Access Point"
+					onLoad={handleHideLoader}
+				>
+				</iframe>
 				<form onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label htmlFor="name">Gnome Title</label>
@@ -104,6 +135,7 @@ const AddGnomePage = ({ addGnome, loading, error }) => {
 							required
 						/>
 					</div>
+					
 					<button
 						disabled={loading}
 						type="submit"
@@ -126,8 +158,8 @@ const mapStateToProps = state => {
 	console.log(state);
 	const { gnomes } = state;
 	return {
-		loading: gnomes.loading,
-		error: gnomes.error
+		loading: gnomes.addGnome.loading,
+		error: gnomes.addGnome.error
 	};
 };
 
