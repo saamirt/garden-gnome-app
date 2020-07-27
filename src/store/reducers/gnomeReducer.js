@@ -7,50 +7,50 @@ const initialState = {
 	},
 	deleteGnome: {
 		error: null,
-		loading: false
+		loading: false,
 	},
-	editGnomeHose: {
+	setGnomeState: {
 		error: null,
-		loading: false
-	}
+		loading: false,
+	},
 };
 
 export default (state = initialState, { type, payload }) => {
 	switch (type) {
 		case actions.ADD_GNOME_START:
-			return { 
+			return {
 				...state,
 				addGnome: {
 					...state.addGnome,
 					loading: true,
-					error: false 
-				}
-			} 
-				
+					error: false,
+				},
+			};
+
 		case actions.ADD_GNOME_SUCCESS:
-			return { 
+			return {
 				...state,
 				addGnome: {
 					...state.addGnome,
-					loading: false, 
-					error: false
-				}
-			} 
+					loading: false,
+					error: false,
+				},
+			};
 
 		case actions.ADD_GNOME_FAIL:
-			return { 
+			return {
 				...state,
-				addGnome:{
+				addGnome: {
 					...state.addGnome,
-					loading: false, 
-					error: payload 
-				}
-			} 
+					loading: false,
+					error: payload,
+				},
+			};
 
 		case actions.DELETE_GNOME_START:
 			return {
 				...state,
-				deleteGnome: { ...state.deleteGnome, loading: true }
+				deleteGnome: { ...state.deleteGnome, loading: true },
 			};
 
 		case actions.DELETE_GNOME_SUCCESS:
@@ -59,8 +59,8 @@ export default (state = initialState, { type, payload }) => {
 				deleteGnome: {
 					...state.deleteGnome,
 					loading: false,
-					error: false
-				}
+					error: false,
+				},
 			};
 
 		case actions.DELETE_GNOME_FAIL:
@@ -69,38 +69,38 @@ export default (state = initialState, { type, payload }) => {
 				deleteGnome: {
 					...state.deleteGnome,
 					loading: false,
-					error: payload
-				}
-			};
-		
-		case actions.EDIT_GNOME_HOSE_START:
-			return {
-				...state,
-				editGnomeHose:{
-					...state.editGnomeHose,
-					loading: true,
-					error: false
-				}
+					error: payload,
+				},
 			};
 
-		case actions.EDIT_GNOME_HOSE_SUCCESS:
+		case actions.SET_GNOME_STATE_START:
 			return {
 				...state,
-				editGnomeHose:{
-					...state.editGnomeHose,
-					loading: false,
-					error: false
-				}
+				setGnomeState: {
+					...state.setGnomeState,
+					loading: true,
+					error: false,
+				},
 			};
-			
-		case actions.EDIT_GNOME_HOSE_FAIL:
+
+		case actions.SET_GNOME_STATE_SUCCESS:
 			return {
 				...state,
-				editGnomeHose:{
-					...state.editGnomeHose,
+				setGnomeState: {
+					...state.setGnomeState,
 					loading: false,
-					error: payload
-				}
+					error: false,
+				},
+			};
+
+		case actions.SET_GNOME_STATE_FAIL:
+			return {
+				...state,
+				setGnomeState: {
+					...state.setGnomeState,
+					loading: false,
+					error: payload,
+				},
 			};
 
 		default:
