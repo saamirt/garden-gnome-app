@@ -3,14 +3,14 @@ import { Helmet } from "react-helmet-async";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import * as actions from "../../store/actions/gnomeActions";
 import LineChart from "../../components/LineChart";
 
 import "./style.scss";
 
 const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
-	const { id } = useParams();
+	const { id } = useLocation();
 	let [state, setState] = useState({});
 	let [data, setData] = useState({
 		light: [],
@@ -111,8 +111,8 @@ const mapStateToProps = ({ firebase, firestore, gnomes }, props) => {
 		firestore.data.users &&
 		firestore.data.gnomes &&
 		Object.values(firestore.data.users)[0];
-	let gnomeState = gnomes.setGnomeState;
-	let { id } = props.match.params;
+  let gnomeState = gnomes.setGnomeState;
+	let { id } = props.location.state;
 	return {
 		userId: firebase.auth.uid,
 		gnome: user && {

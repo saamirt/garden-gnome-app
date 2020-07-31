@@ -4,11 +4,16 @@ import GnomeImage from "./../GnomeImage";
 
 import "./style.scss";
 
-const GnomeCard = ({ id, name = "Unknown Gnome", color = "#c1bbff" }) => {
+const GnomeCard = ({ id, name = "Unknown Gnome", color = "#c1bbff", is_connected = false }) => {
+	let path = is_connected?`/gnome/${name}`:`connectgnome`;
+	let statusColor = is_connected?"#9FFF97":"#ff0000"
 	return (
 		<div className="col-xl-4 card-col gnome-card-col">
 			<Link
-				to={`/gnome/${id}`}
+				to={{
+					pathname:path,
+					state:{id}
+				}}
 				className="gnome-card card border-0 mx-auto mb-0"
 			>
 				<div className="row no-gutters align-items-center justify-content-between gnome-card-row">
@@ -25,7 +30,7 @@ const GnomeCard = ({ id, name = "Unknown Gnome", color = "#c1bbff" }) => {
 								style={{
 									width: "15px",
 									height: "7px",
-									backgroundColor: "#9FFF97",
+									backgroundColor: statusColor,
 									marginRight: "7px"
 								}}
 							></div>

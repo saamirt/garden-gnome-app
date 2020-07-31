@@ -50,7 +50,11 @@ export default (state = initialState, { type, payload }) => {
 		case actions.DELETE_GNOME_START:
 			return {
 				...state,
-				deleteGnome: { ...state.deleteGnome, loading: true },
+				deleteGnome: { 
+					...state.deleteGnome,
+					loading: true,
+					error:false
+				},
 			};
 
 		case actions.DELETE_GNOME_SUCCESS:

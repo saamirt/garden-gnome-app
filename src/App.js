@@ -15,6 +15,8 @@ import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import VerifyEmailPage from "./containers/VerifyEmailPage/VerifyEmailPage";
 import GnomeDetailsPage from "./containers/GnomeDetailsPage/GnomeDetailsPage";
 import AddGnomePage from "./containers/AddGnomePage/AddGnomePage";
+import ConnectGnomePage from "./containers/ConnectGnomePage/ConnectGnomePage";
+
 const GnomesPage = React.lazy(() =>
 	import("./containers/GnomesPage/GnomesPage")
 );
@@ -28,6 +30,7 @@ const App = ({ loggedIn, emailVerified }) => {
 				<Switch>
 					<Route exact path="/" component={HomePage} />
 					<Route exact path="/addgnome" component={AddGnomePage} />
+					<Route exact path="/connectgnome" component={ConnectGnomePage} />
 					<Route exact path="/gnomes" component={GnomesPage} />
 					<Route
 						exact
