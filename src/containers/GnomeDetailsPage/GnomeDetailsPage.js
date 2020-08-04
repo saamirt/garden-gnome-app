@@ -36,7 +36,7 @@ const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
 					),
 					timestamps,
 				});
-				console.log(data);
+				//console.log(data);
 			}
 		}
 	}, [gnome]);

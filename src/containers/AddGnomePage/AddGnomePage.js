@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 
 import { Helmet } from "react-helmet-async";
 import { connect } from "react-redux";
-import Loader from "../../components/Loader";
 
 import * as actions from "../../store/actions/gnomeActions";
 

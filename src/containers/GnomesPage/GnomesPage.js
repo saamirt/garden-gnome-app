@@ -1,6 +1,6 @@
 import "./style.scss";
 
-import React, { useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -12,7 +12,7 @@ import AddGnomeCard from "../../components/AddGnomeCard";
 //import * as actions from "../../store/actions/gnomeActions";
 
 const GnomesPage = ({ loading, error, gnomes, userId }) => {
-	console.log(gnomes);
+	//console.log(gnomes);
 	return (
 		<div className="container">
 			<Helmet>

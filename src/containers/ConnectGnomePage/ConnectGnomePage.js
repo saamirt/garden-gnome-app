@@ -19,20 +19,22 @@ const ConnectGnomePage = ({ userId, loading, error }) => {
     let gnomeId = location.state.id;
 
 
-    const handleHideLoader = e =>{
-		setGnomeSetupLoading(false);
-    };
     
     const handleSubmit = async event => {
-		if (event.origin.startsWith('http://192.168.4.1/wifi')) { 
-            console.log(event.data); 
+        setSuccess(true);
+		if (event.origin.startsWith('http://192.168.4.1')) { 
             if(event.data === 'Network Saved'){
-                setSuccess(true);
+                history.push('/gnome/'+gnomeId, {id:gnomeId});
+                window.removeEventListener('message', handleSubmit);
             }
         }
+        console.groupEnd();
     };
     
-    window.addEventListener('message', handleSubmit);
+    const handleHideLoader = _e =>{
+        setGnomeSetupLoading(false);
+        window.addEventListener('message', handleSubmit);
+    };
 
 	useEffect(() => {
 		const iframe = document.getElementsByTagName("iframe")[0];
@@ -41,16 +43,6 @@ const ConnectGnomePage = ({ userId, loading, error }) => {
 			console.log("sent gnome id")
 		}		
     });
-    useEffect(() => {
-        if(success){
-            history.push('/gnome/'+gnomeId)
-            return () => {
-                window.removeEventListener('message', handleSubmit);
-            }
-        }
-    }, [success]);
-	
-
 	
 
 	return (
@@ -97,9 +89,7 @@ const ConnectGnomePage = ({ userId, loading, error }) => {
 	);
 };
 
-const mapStateToProps = state => {
-	console.log(state);
-    const { firebase, gnomes } = state;
+const mapStateToProps = ({ firebase, gnomes }) => {
 	return {
         userId: firebase.auth.uid,
 		loading: gnomes.addGnome.loading,

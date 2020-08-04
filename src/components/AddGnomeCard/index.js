@@ -11,7 +11,7 @@ const AddGnomeCard = () => {
 				to={"/addgnome"}
 				className="gnome-card card mx-auto mb-0 add-gnome-card"
 			>
-				<img src={plusIcon} className="add-gnome-card__plus" />
+				<img src={plusIcon} alt='' className="add-gnome-card__plus" />
 			</Link>
 		</div>
 	);
