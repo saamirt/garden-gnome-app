@@ -10,8 +10,8 @@ import LineChart from "../../components/LineChart";
 import "./style.scss";
 
 const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
-	const { id } = useLocation();
-	let [state, setState] = useState({});
+	const { id } = useLocation().state;
+  	let [state, setState] = useState({});
 	let [data, setData] = useState({
 		light: [],
 		soil_humidity: [],
@@ -23,7 +23,7 @@ const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
 			setState(gnome.state);
 			if (gnome.data) {
 				let timestamps = gnome.data.map((a) =>
-					new Date(a.timestamp * 1000).toLocaleString()
+					new Date(a.timestamp).toLocaleString()
 				);
 				console.log(gnome);
 				setData({
@@ -54,7 +54,7 @@ const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
 		let state_change = {
 			hose: {
 				is_active: !state.hose.is_active,
-				duration: -1,
+				duration: 1,
 				end_timestamp: null,
 			},
 		};
@@ -63,6 +63,14 @@ const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
 				console.error("Error Editing Gnome Hose", error);
 			}
 		});
+  };
+	const handleInputChange = e => {
+		const target = e.target;
+		const value =
+			target.type === "checkbox" ? target.checked : target.value;
+		const id = target.id;
+
+		setState({ ...state, [id]: value });
 	};
 
 	return (
@@ -89,6 +97,17 @@ const GnomeDetailsPage = ({ gnome, setGnomeState, loading, error }) => {
 							? "Hose is On"
 							: "Hose is Off"}
 					</button>
+          {state.hose && 
+            <input
+            type="number"
+            className="form-control"
+            id="duration"
+            placeholder="Enter duration in minutes"
+            onChange={handleInputChange}
+            value={state.hose.duration}
+            />
+          }
+          
 					{data.sensors &&
 						Object.keys(data.sensors).map((k) => (
 							<div className="row" key={k}>

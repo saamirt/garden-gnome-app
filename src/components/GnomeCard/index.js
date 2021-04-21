@@ -12,7 +12,7 @@ const GnomeCard = ({ id, name = "Unknown Gnome", color = "#c1bbff", is_connected
 			<Link
 				to={{
 					pathname:path,
-					state:{id}
+					state:{id, name}
 				}}
 				className="gnome-card card border-0 mx-auto mb-0"
 			>

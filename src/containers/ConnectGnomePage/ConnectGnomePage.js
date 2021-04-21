@@ -7,25 +7,26 @@ import * as actions from "../../store/actions/gnomeActions";
 
 import "./style.scss";
 
-//makes setting and disappearing the success message thread-safe.
-//prevents setting success to false while other calls are still going on
-//let semaphore = 0;
 
 const ConnectGnomePage = ({ userId, loading, error }) => {
 	const [success, setSuccess] = useState(false);
 	const [gnomeSetupLoading, setGnomeSetupLoading] = useState(true);
     const history = useHistory();
     const location = useLocation();
-    let gnomeId = location.state.id;
-
+    let {id, name} = location.state;
+	const nextLocation = {
+		pathname: '/gnome/'+name,
+		state: { id, name }
+	}
 
     
     const handleSubmit = async event => {
-        setSuccess(true);
 		if (event.origin.startsWith('http://192.168.4.1')) { 
+			console.log(event.origin);
             if(event.data === 'Network Saved'){
-                history.push('/gnome/'+gnomeId, {id:gnomeId});
+				setSuccess(true);
                 window.removeEventListener('message', handleSubmit);
+				setTimeout(()=>{history.push(nextLocation)},5000);
             }
         }
         console.groupEnd();
@@ -39,7 +40,7 @@ const ConnectGnomePage = ({ userId, loading, error }) => {
 	useEffect(() => {
 		const iframe = document.getElementsByTagName("iframe")[0];
 		if(iframe){
-			iframe.contentWindow.postMessage({gnomeId, userId},'http://192.168.4.1/wifi');
+			iframe.contentWindow.postMessage({id, userId},'http://192.168.4.1/wifi');
 			console.log("sent gnome id")
 		}		
     });
